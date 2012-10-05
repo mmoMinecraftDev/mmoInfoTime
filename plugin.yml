@@ -1,0 +1,12 @@
+name: mmoInfoTime
+main: mmo.Info.mmoInfoTime
+version: 0.2
+website: http://www.almuramc.com
+author: Dockter
+depend: [Spout,mmoCore,mmoInfo]
+
+description: Adds {time} to the info tokens
+permissions:
+  mmo.info.time:
+    description: Allows {world-time} to show current and max users on server.
+    default: true
