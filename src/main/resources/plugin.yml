@@ -1,10 +1,9 @@
 name: mmoInfoTime
+version: ${releaseVersion}.${buildNumber}
+author: mmoMinecraftDev
+website: http://mmo.me.uk
 main: mmo.Info.mmoInfoTime
-version: 0.2
-website: http://www.almuramc.com
-author: Dockter
 depend: [Spout,mmoCore,mmoInfo]
-
 description: Adds {time} to the info tokens
 permissions:
   mmo.info.time:
