@@ -22,6 +22,8 @@ import mmo.Core.InfoAPI.MMOInfoEvent;
 import mmo.Core.MMOPlugin;
 import mmo.Core.MMOPlugin.Support;
 import mmo.Core.util.EnumBitSet;
+
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,10 +38,10 @@ public class mmoInfoTime extends MMOPlugin
 implements Listener
 {
 	private HashMap<Player, CustomLabel> widgets = new HashMap();
+	private static int config_timetype = 12;
 
 	public EnumBitSet mmoSupport(EnumBitSet support)
-	{
-		support.set(MMOPlugin.Support.MMO_NO_CONFIG);
+	{		
 		support.set(MMOPlugin.Support.MMO_AUTO_EXTRACT);
 		return support;
 	}
@@ -48,7 +50,12 @@ implements Listener
 		super.onEnable();
 		this.pm.registerEvents(this, this);
 	}
-	
+
+	@Override
+	public void loadConfiguration(final FileConfiguration cfg) {
+		config_timetype = cfg.getInt("timetype", config_timetype);				
+	}
+
 	@EventHandler
 	public void onMMOInfo(MMOInfoEvent event)
 	{
@@ -76,20 +83,23 @@ implements Listener
 			this.check = true;
 		}
 		private transient int tick = 0;
+		//int minutes = (int)(60L * (getServer().getWorld(getScreen().getPlayer().getWorld().getName()).getTime() % 1000L) / 1000L);
 		public void onTick()
 		{
 			if (tick++ % 100 == 0) {
 				int hours = (int)((getServer().getWorld(getScreen().getPlayer().getWorld().getName()).getTime() / 1000L + 6L) % 24L);
-			    //int minutes = (int)(60L * (getServer().getWorld(getScreen().getPlayer().getWorld().getName()).getTime() % 1000L) / 1000L);
-			   
-			    if (hours == 1)
-			    setText(String.format(": " + "12am"));
-			    if (hours > 1 && hours <= 11)
-				setText(String.format(": " + hours + "am"));
-			    if (hours == 12)
-					setText(String.format(": " + hours + "pm"));
-			    if (hours >= 13) 
-			    	setText(String.format(": " + (hours-12) + "pm"));
+				if (config_timetype == 12) {
+					if (hours == 1)
+						setText(String.format("12am"));
+					if (hours > 1 && hours <= 11)
+						setText(String.format(hours + "am"));
+					if (hours == 12)
+						setText(String.format(hours + "pm"));
+					if (hours >= 13) 
+						setText(String.format((hours-12) + "pm"));			    
+				} else {
+					setText(String.format(hours + "hrs"));
+				}
 			}
 		}
 	}
