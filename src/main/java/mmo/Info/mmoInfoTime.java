@@ -62,7 +62,8 @@ implements Listener
 		if (event.isToken("time")) {
 			SpoutPlayer player = event.getPlayer();
 			if (player.hasPermission("mmo.info.time")) {
-				CustomLabel label = (CustomLabel)new CustomLabel().setResize(true).setFixed(true);
+				CustomLabel label = (CustomLabel)new CustomLabel().setResize(true).setFixed(true).setMaxWidth(25);
+				label.setText("12am");
 				this.widgets.put(player, label);
 				event.setWidget(this.plugin, label);
 				event.setIcon("clock.png");
