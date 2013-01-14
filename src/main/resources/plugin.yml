@@ -8,4 +8,4 @@ description: Adds {time} to the info tokens
 permissions:
   mmo.info.time:
     description: Allows {world-time} to show current and max users on server.
-    default: true
+    default: op
